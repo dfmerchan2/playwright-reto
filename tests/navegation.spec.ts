@@ -54,3 +54,72 @@ test('Navigation through the left panel', async ({page}) => {
         }
     }
 })
+
+test('Check all the qualification links', async ({page}) => {
+
+    const expectedPages = [
+        {menu: 'Skills', url: '/web/index.php/admin/viewSkills'},
+        {menu: 'Education', url: '/web/index.php/admin/viewEducation'},
+        {menu: 'Licenses', url: '/web/index.php/admin/viewLicenses'},
+        {menu: 'Languages', url: '/web/index.php/admin/viewLanguages'},
+        {menu: 'Memberships', url: '/web/index.php/admin/membership'},
+    ]
+
+    await page.goto(URL_PAGE)
+    await page.getByRole('textbox', {name: 'username'}).fill('Admin')
+    await page.getByRole('textbox', {name: 'password'}).fill('admin123')
+    await page.getByRole('button', {name: 'Login'}).click()
+
+    await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
+
+    await page.getByRole('link', {name: 'Admin'}).click()
+
+    await page.getByRole('navigation', {name: 'Topbar Menu'}).getByText('Qualifications').click()
+
+    const qualificationOptions = page.getByRole('menu').locator('li')
+
+    for (let expectedPage of expectedPages) {
+        const menuOptions = qualificationOptions.filter({hasText: expectedPage.menu})
+        await menuOptions.click()
+        await expect(page).toHaveURL(new RegExp(expectedPage.url))
+
+        await page.getByRole('navigation', {name: 'Topbar Menu'}).getByText('Qualifications').click()
+    }
+})
+
+test('Check all the configuration links', async ({page}) => {
+
+    const expectedPages = [
+        {menu: 'Email Configuration', url: '/web/index.php/admin/listMailConfiguration'},
+        {menu: 'Email Subscriptions', url: '/web/index.php/admin/viewEmailNotification'},
+        {menu: 'Localization', url: '/web/index.php/admin/localization'},
+        {menu: 'Language Packages', url: '/web/index.php/admin/languagePackage'},
+        {menu: 'Modules', url: '/web/index.php/admin/viewModules'},
+        {menu: 'Social Media Authentication', url: '/web/index.php/admin/openIdProvider'},
+        {menu: 'Register OAuth Client', url: '/web/index.php/admin/registerOAuthClient'},
+        {menu: 'LDAP Configuration', url: '/web/index.php/admin/ldapConfiguration'}
+    ]
+
+    await page.goto(URL_PAGE)
+    await page.getByRole('textbox', {name: 'username'}).fill('Admin')
+    await page.getByRole('textbox', {name: 'password'}).fill('admin123')
+    await page.getByRole('button', {name: 'Login'}).click()
+
+    await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
+
+    await page.getByRole('link', {name: 'Admin'}).click()
+
+    await page.getByRole('navigation', {name: 'Topbar Menu'}).getByText('Configuration').click()
+
+    const qualificationOptions = page.getByRole('menu').locator('li')
+
+    for (let expectedPage of expectedPages) {
+        const menuOptions = qualificationOptions.filter({hasText: expectedPage.menu})
+        await menuOptions.click()
+        await expect(page).toHaveURL(new RegExp(expectedPage.url))
+
+        await page.getByRole('navigation', {name: 'Topbar Menu'}).getByText('Configuration').click()
+    }
+})
+
+
