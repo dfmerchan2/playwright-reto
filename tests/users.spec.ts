@@ -1,12 +1,10 @@
 import {expect, test} from "@playwright/test";
+import {LoginPage} from "../pageobject/LoginPage";
 
-const URL_PAGE: string = "https://opensource-demo.orangehrmlive.com/";
 
 test('Get all the username registered', async ({page}) => {
-    await page.goto(URL_PAGE)
-    await page.getByRole('textbox', {name: 'username'}).fill('Admin')
-    await page.getByRole('textbox', {name: 'password'}).fill('admin123')
-    await page.getByRole('button', {name: 'Login'}).click()
+    const loginPage = new LoginPage(page);
+    await loginPage.doLogin('Admin', 'admin123')
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
 
@@ -31,10 +29,8 @@ test('Get all the username registered', async ({page}) => {
 })
 
 test('Get all the Employee Name registered', async ({page}) => {
-    await page.goto(URL_PAGE)
-    await page.getByRole('textbox', {name: 'username'}).fill('Admin')
-    await page.getByRole('textbox', {name: 'password'}).fill('admin123')
-    await page.getByRole('button', {name: 'Login'}).click()
+    const loginPage = new LoginPage(page);
+    await loginPage.doLogin('Admin', 'admin123')
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
 
@@ -62,10 +58,8 @@ test('Get all the Employee Name registered', async ({page}) => {
 test('Select specific user for edition', async ({page}) => {
 
     const userForEdit = 'hassan3011'
-    await page.goto(URL_PAGE)
-    await page.getByRole('textbox', {name: 'username'}).fill('Admin')
-    await page.getByRole('textbox', {name: 'password'}).fill('admin123')
-    await page.getByRole('button', {name: 'Login'}).click()
+    const loginPage = new LoginPage(page);
+    await loginPage.doLogin('Admin', 'admin123')
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
 
@@ -87,10 +81,8 @@ test('Select specific user for edition', async ({page}) => {
 
 test('Select random user for edition', async ({page}) => {
 
-    await page.goto(URL_PAGE)
-    await page.getByRole('textbox', {name: 'username'}).fill('Admin')
-    await page.getByRole('textbox', {name: 'password'}).fill('admin123')
-    await page.getByRole('button', {name: 'Login'}).click()
+    const loginPage = new LoginPage(page);
+    await loginPage.doLogin('Admin', 'admin123')
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
 

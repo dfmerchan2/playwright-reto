@@ -1,12 +1,9 @@
 import {expect, test} from "@playwright/test";
-
-const URL_PAGE: string = "https://opensource-demo.orangehrmlive.com/";
+import {LoginPage} from "../pageobject/LoginPage";
 
 test('Check left menu options', async ({page}) => {
-    await page.goto(URL_PAGE)
-    await page.getByRole('textbox', {name: 'username'}).fill('Admin')
-    await page.getByRole('textbox', {name: 'password'}).fill('admin123')
-    await page.getByRole('button', {name: 'Login'}).click()
+    const loginPage = new LoginPage(page);
+    await loginPage.doLogin('Admin', 'admin123')
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
 
@@ -32,10 +29,8 @@ test('Check left menu options', async ({page}) => {
 })
 
 test('Navigation through the left panel', async ({page}) => {
-    await page.goto(URL_PAGE)
-    await page.getByRole('textbox', {name: 'username'}).fill('Admin')
-    await page.getByRole('textbox', {name: 'password'}).fill('admin123')
-    await page.getByRole('button', {name: 'Login'}).click()
+    const loginPage = new LoginPage(page);
+    await loginPage.doLogin('Admin', 'admin123')
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
 
@@ -65,10 +60,8 @@ test('Check all the qualification links', async ({page}) => {
         {menu: 'Memberships', url: '/web/index.php/admin/membership'},
     ]
 
-    await page.goto(URL_PAGE)
-    await page.getByRole('textbox', {name: 'username'}).fill('Admin')
-    await page.getByRole('textbox', {name: 'password'}).fill('admin123')
-    await page.getByRole('button', {name: 'Login'}).click()
+    const loginPage = new LoginPage(page);
+    await loginPage.doLogin('Admin', 'admin123')
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
 
@@ -100,10 +93,8 @@ test('Check all the configuration links', async ({page}) => {
         {menu: 'LDAP Configuration', url: '/web/index.php/admin/ldapConfiguration'}
     ]
 
-    await page.goto(URL_PAGE)
-    await page.getByRole('textbox', {name: 'username'}).fill('Admin')
-    await page.getByRole('textbox', {name: 'password'}).fill('admin123')
-    await page.getByRole('button', {name: 'Login'}).click()
+    const loginPage = new LoginPage(page);
+    await loginPage.doLogin('Admin', 'admin123')
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
 
