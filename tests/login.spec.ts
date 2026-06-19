@@ -1,9 +1,16 @@
 import {expect, test} from "@playwright/test";
 import {LoginPage} from "../pageobject/LoginPage";
+import {SidePanel} from "../components/SidePanel";
+import {SideMenuOption} from "../enums/SideMenuOption";
 
 test('Login Successful to HRM', async ({page}) => {
     const loginPage = new LoginPage(page);
+    const sidePanel = new SidePanel(page);
+
     await loginPage.doLogin('Admin', 'admin123')
+    await sidePanel.clickOnMenu(SideMenuOption.ADMIN)
+    await sidePanel.searchOption(SideMenuOption.MAINTENANCE);
+
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
 })
