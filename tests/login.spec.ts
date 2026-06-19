@@ -9,10 +9,9 @@ test('Login Successful to HRM', async ({page}) => {
 
     await loginPage.doLogin('Admin', 'admin123')
     await sidePanel.clickOnMenu(SideMenuOption.ADMIN)
-    await sidePanel.searchOption(SideMenuOption.MAINTENANCE);
-
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
+    await sidePanel.searchOption(SideMenuOption.MAINTENANCE);
 })
 
 test('Login with empty credentials', async ({page}) => {
