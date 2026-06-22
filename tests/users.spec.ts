@@ -4,7 +4,7 @@ import {LoginPage} from "../pageobject/LoginPage";
 
 test('Get all the username registered', async ({page}) => {
     const loginPage = new LoginPage(page);
-    await loginPage.doLogin('Admin', 'admin123')
+    await loginPage.loginAsAdmin()
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
 
@@ -30,7 +30,7 @@ test('Get all the username registered', async ({page}) => {
 
 test('Get all the Employee Name registered', async ({page}) => {
     const loginPage = new LoginPage(page);
-    await loginPage.doLogin('Admin', 'admin123')
+    await loginPage.loginAsAdmin()
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
 
@@ -59,7 +59,7 @@ test('Select specific user for edition', async ({page}) => {
 
     const userForEdit = 'hassan3011'
     const loginPage = new LoginPage(page);
-    await loginPage.doLogin('Admin', 'admin123')
+    await loginPage.loginAsAdmin()
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
 
@@ -82,7 +82,7 @@ test('Select specific user for edition', async ({page}) => {
 test('Select random user for edition', async ({page}) => {
 
     const loginPage = new LoginPage(page);
-    await loginPage.doLogin('Admin', 'admin123')
+    await loginPage.loginAsAdmin()
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
 
