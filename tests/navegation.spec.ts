@@ -1,5 +1,9 @@
 import {expect, test} from "@playwright/test";
 import {LoginPage} from "../pageobject/LoginPage";
+import {SidePanel} from "../components/SidePanel";
+import {SideMenuOption} from "../enums/SideMenuOption";
+import {TopBarMenu} from "../components/TopBarMenu";
+import {MenuOptions, SubMenuOptions} from "../enums/TopBarMenuOptions";
 
 test('Check left menu options', async ({page}) => {
     const loginPage = new LoginPage(page);
@@ -111,6 +115,17 @@ test('Check all the configuration links', async ({page}) => {
 
         await page.getByRole('navigation', {name: 'Topbar Menu'}).getByText('Configuration').click()
     }
+})
+
+test('Navigation top bar menu', async ({page}) => {
+    const loginPage = new LoginPage(page);
+    const sidePanel = new SidePanel(page);
+    const topBarMenu = new TopBarMenu(page);
+
+    await loginPage.loginAsAdmin()
+    await sidePanel.clickOnMenu(SideMenuOption.ADMIN)
+    await topBarMenu.clickOnMenuTopBar(MenuOptions.Job)
+    await topBarMenu.clickOnSubMenuTopBar(SubMenuOptions.PAY_GRADES)
 })
 
 
