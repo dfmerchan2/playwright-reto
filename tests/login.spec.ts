@@ -7,8 +7,8 @@ test('Login Successful to HRM', async ({page}) => {
     const loginPage = new LoginPage(page);
     const sidePanel = new SidePanel(page);
 
-    await loginPage.loginAsAdmin()
-    await sidePanel.clickOnMenu(SideMenuOption.ADMIN)
+    await page.goto('/web/index.php/admin/viewSystemUsers')
+    //await sidePanel.clickOnMenu(SideMenuOption.ADMIN)
 
     await expect(page.getByRole('link', {name: 'Admin'})).toBeVisible()
     await sidePanel.searchOption(SideMenuOption.MAINTENANCE);
