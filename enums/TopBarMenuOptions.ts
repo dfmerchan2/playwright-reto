@@ -9,6 +9,7 @@ export enum MenuOptions {
 }
 
 export enum SubMenuOptions {
+    USERS = 'Users',
     JOB_TITLES = 'Job Titles',
     PAY_GRADES = 'Pay Grades',
     EMPLOYMENT_STATUS = 'Employment Status',

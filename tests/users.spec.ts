@@ -4,6 +4,8 @@ import {SidePanel} from "../components/SidePanel";
 import {SideMenuOption} from "../enums/SideMenuOption";
 import {UserPage} from "../pageobject/UserPage";
 import {LabelOptions} from "../enums/Enums";
+import {TopBarMenu} from "../components/TopBarMenu";
+import {MenuOptions, SubMenuOptions} from "../enums/TopBarMenuOptions";
 
 
 test('Get all the username registered', async ({page}) => {
@@ -133,7 +135,7 @@ test('check user role options', async ({ page }) => {
     await sidePanel.clickOnMenu(SideMenuOption.ADMIN)
 
     const userPage = new UserPage(page);
-    await userPage.clickOnDropdown(LabelOptions.USER_ROLE)
+    await userPage.clickOnFilterSystemUsers(LabelOptions.USER_ROLE)
 
     const currentRoleOptions = await userPage.getAllDropdownOptions()
 
@@ -154,12 +156,46 @@ test('check status options', async ({ page }) => {
     await sidePanel.clickOnMenu(SideMenuOption.ADMIN)
 
     const userPage = new UserPage(page);
-    await userPage.clickOnDropdown(LabelOptions.STATUS)
+    await userPage.clickOnFilterSystemUsers(LabelOptions.STATUS)
 
     const currentStatusOptions = await userPage.getAllDropdownOptions()
 
     console.log(currentStatusOptions);
 
     expect(currentStatusOptions,'The options displayed in the User Role Dropdown do not match the expected option').toEqual(expectedStatusOptions);
+
+})
+
+test('Navigation top bar menu', async ({page}) => {
+    const loginPage = new LoginPage(page);
+    const userPage = new UserPage(page);
+    const sidePanel = new SidePanel(page);
+    const topBarMenu = new TopBarMenu(page);
+
+    await loginPage.loginAsAdmin()
+    await sidePanel.clickOnMenu(SideMenuOption.ADMIN)
+    await topBarMenu.clickOnMenuTopBar(MenuOptions.USER_MANAGEMENT)
+    await topBarMenu.clickOnSubMenuTopBar(SubMenuOptions.USERS)
+
+    const allBodyRows = page.getByRole('table').getByRole('rowgroup').nth(1).getByRole('row')
+
+    const currentAllBodyRows = allBodyRows.filter({
+        has: page.getByRole('cell').nth(2).getByText('Admin')
+    })
+
+    const  expectedAdminCount = await currentAllBodyRows.count()
+    console.log('Admin user before filtering', expectedAdminCount)
+
+
+    await userPage.clickOnFilterSystemUsers(LabelOptions.USER_ROLE)
+    await userPage.clickOnOptionFilter('Admin')
+    await userPage.clickOnSearch()
+
+    console.log('Diego 2', allBodyRows.count())
+    await expect(allBodyRows).toHaveCount(expectedAdminCount)
+
+    for (let  i=0; i<expectedAdminCount; i++) {
+        await expect(allBodyRows.nth(i).getByRole('cell').nth(2)).toContainText('Admin')
+    }
 
 })
